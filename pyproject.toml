@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "corpus-mcp"
+version = "0.1.0"
+description = "An MCP server exposing keyword retrieval over a local document corpus."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Matthew Morris" }]
+
+# One dependency. Retrieval is BM25 implemented in-tree, so pointing this at a
+# directory needs no model download, no API key, and no vector database.
+dependencies = ["mcp>=2.0"]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.24",
+    "ruff>=0.5",
+]
+
+[project.scripts]
+corpus-mcp = "corpus_mcp.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+src = ["src", "tests", "scripts"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
